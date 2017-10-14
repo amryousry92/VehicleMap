@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171014003103) do
+ActiveRecord::Schema.define(version: 20171014221601) do
 
   create_table "locations", force: :cascade do |t|
-    t.float    "lat",        limit: 24
-    t.float    "lng",        limit: 24
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.float    "lat",                limit: 24
+    t.float    "lng",                limit: 24
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "vehicle_id",         limit: 4
+    t.datetime "location_timestamp"
   end
 
   create_table "vehicles", force: :cascade do |t|

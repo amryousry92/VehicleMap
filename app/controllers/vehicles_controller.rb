@@ -19,7 +19,7 @@ class VehiclesController < ApplicationController
     vehicle=Vehicle.where(uid: params[:id]).first
     location.lat = params[:lat]
     location.lng = params[:lng]
-    location.timestamp = DateTime.parse(params[:at])
+    location.location_timestamp = DateTime.parse(params[:at])
     location.save
     render nothing: true, :status =>204
   end
@@ -27,6 +27,14 @@ class VehiclesController < ApplicationController
   def show
     vehicle=Vehicle.where(uid: params[:id]).first
     render :json => {"vehicle"=>vehicle }
+  end
+
+  def main
+    @locations = Location.all
+    @hash = Gmaps4rails.build_markers(@locations) do |location, marker|
+      marker.lat location.lat
+      marker.lng location.lng
+    end
   end
 
 end

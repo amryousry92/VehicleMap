@@ -35,3 +35,57 @@ WHERE fk.referenced_column_name is not null
   AND fk.table_name = 'vehicles'
 [0m
   [1m[35m (0.1ms)[0m  SHOW CREATE TABLE `vehicles`
+  [1m[36mActiveRecord::SchemaMigration Load (27.5ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to AddForeignKeyToLocations (20171014011954)
+  [1m[35m (42.0ms)[0m  ALTER TABLE `locations` ADD `vehicle_id` int(11)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (4.8ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20171014011954')
+  [1m[36m (5.8ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (1.4ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36m (0.8ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'VehicleMap_development'
+  AND fk.table_name = 'locations'
+[0m
+  [1m[35m (0.3ms)[0m  SHOW CREATE TABLE `locations`
+  [1m[36m (0.4ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'VehicleMap_development'
+  AND fk.table_name = 'vehicles'
+[0m
+  [1m[35m (0.3ms)[0m  SHOW CREATE TABLE `vehicles`
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+Migrating to AddLocationTimeStamp (20171014221601)
+  [1m[35m (40.3ms)[0m  ALTER TABLE `locations` ADD `location_timestamp` datetime
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20171014221601')
+  [1m[36m (6.0ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (5.7ms)[0m  SELECT `schema_migrations`.* FROM `schema_migrations`
+  [1m[36m (0.8ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'VehicleMap_development'
+  AND fk.table_name = 'locations'
+[0m
+  [1m[35m (0.3ms)[0m  SHOW CREATE TABLE `locations`
+  [1m[36m (0.7ms)[0m  [1mSELECT fk.referenced_table_name as 'to_table'
+      ,fk.referenced_column_name as 'primary_key'
+      ,fk.column_name as 'column'
+      ,fk.constraint_name as 'name'
+FROM information_schema.key_column_usage fk
+WHERE fk.referenced_column_name is not null
+  AND fk.table_schema = 'VehicleMap_development'
+  AND fk.table_name = 'vehicles'
+[0m
+  [1m[35m (0.3ms)[0m  SHOW CREATE TABLE `vehicles`
