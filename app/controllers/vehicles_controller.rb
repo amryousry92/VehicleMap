@@ -35,6 +35,8 @@ class VehiclesController < ApplicationController
       marker.lat location.lat
       marker.lng location.lng
     end
+
+    @d2d_location = Vehicle.where(uid: "d2d").first.locations.first
   end
 
 end
