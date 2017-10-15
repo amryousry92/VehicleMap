@@ -17,9 +17,11 @@ class VehiclesController < ApplicationController
   def add_location
     location = Location.new
     vehicle=Vehicle.where(uid: params[:id]).first
-    location.lat = params[:lat]
-    location.lng = params[:lng]
-    location.location_timestamp = DateTime.parse(params[:at])
+    body_params = JSON.parse(params.keys[0])
+    location.lat = body_params["lat"]
+    location.lng = body_params["lng"]
+    location.location_timestamp = DateTime.parse(body_params["at"])
+    location.vehicle_id=vehicle.id
     location.save
     render nothing: true, :status =>204
   end

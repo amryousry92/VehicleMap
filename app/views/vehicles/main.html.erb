@@ -32,6 +32,7 @@
         setTimeout(function()
         {
           console.log("polling");
+          console.log(markers);
           handler.removeMarkers(markers)
           $.ajax({
               type: "GET",
@@ -39,7 +40,8 @@
               dataType :"json",
               success:function(msg){
                 console.log(msg["vehicles"]);
-                markers = handler.addMarkers(msg["vehicles"]);
+                markers=msg["vehicles"];
+                markers = handler.addMarkers(markers);
               },
               error:function(msg)
               {
@@ -48,7 +50,7 @@
               }
             });
           timeout_polling();
-        }, 2000);
+        }, 10000);
       }
 
       $(document).ready(function(){
