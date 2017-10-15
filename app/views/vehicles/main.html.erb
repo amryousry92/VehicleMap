@@ -20,11 +20,39 @@
     <script src='//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js' type='text/javascript'></script>
     <script>
       var d2d_location = <%= raw @d2d_location.to_json %>
-      handler = Gmaps.build('Google');
+      var handler = Gmaps.build('Google');
+      var markers = [];
       handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
         markers = handler.addMarkers(<%= raw @locations.to_json %>);
         handler.bounds.extendWith(markers);
         handler.fitMapToBounds();
+      });
+
+      function timeout_polling() {
+        setTimeout(function()
+        {
+          console.log("polling");
+          handler.removeMarkers(markers)
+          $.ajax({
+              type: "GET",
+              url: window.location.origin + window.location.pathname+"/polling",
+              dataType :"json",
+              success:function(msg){
+                console.log(msg["vehicles"]);
+                markers = handler.addMarkers(msg["vehicles"]);
+              },
+              error:function(msg)
+              {
+                // alert("error ",msg);
+                console.log(msg);
+              }
+            });
+          timeout_polling();
+        }, 2000);
+      }
+
+      $(document).ready(function(){
+        timeout_polling();
       });
     </script>
   </body>

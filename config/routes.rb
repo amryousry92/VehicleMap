@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :vehicles
 
     post '/vehicles/:id/locations' => 'vehicles#add_location'
+    get '/polling' => 'vehicles#polling'
 
   # Example resource route with options:
   #   resources :products do

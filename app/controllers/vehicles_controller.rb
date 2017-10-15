@@ -30,13 +30,17 @@ class VehiclesController < ApplicationController
   end
 
   def main
-    @locations = Location.all
+    @locations = Location.all.group('vehicle_id').order('location_timestamp desc').group('vehicle_id')
     @hash = Gmaps4rails.build_markers(@locations) do |location, marker|
       marker.lat location.lat
       marker.lng location.lng
     end
-
     @d2d_location = Vehicle.where(uid: "d2d").first.locations.first
   end
 
+  def polling
+    main()
+    puts @locations.inspect
+    render :json => {"vehicles"=>@locations }
+  end
 end
