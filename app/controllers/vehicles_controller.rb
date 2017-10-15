@@ -2,14 +2,14 @@ class VehiclesController < ApplicationController
 
   def create
     vehicle = Vehicle.new
-    vehicle.uid = params[:id]
+    vehicle.uid = JSON.parse(params.keys[0])["id"]
     vehicle.save
     render :nothing => true, :status =>204
   end
 
   def destroy
     vehicle = Vehicle.where(uid: params[:id]).first
-    vehicle.locations.destroy_all
+    # vehicle.locations.destroy_all
     vehicle.destroy
     render nothing: true, :status =>204
   end

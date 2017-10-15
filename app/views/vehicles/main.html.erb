@@ -32,14 +32,12 @@
         setTimeout(function()
         {
           console.log("polling");
-          console.log(markers);
-          handler.removeMarkers(markers)
           $.ajax({
               type: "GET",
               url: window.location.origin + window.location.pathname+"/polling",
               dataType :"json",
               success:function(msg){
-                console.log(msg["vehicles"]);
+                handler.removeMarkers(markers)
                 markers=msg["vehicles"];
                 markers = handler.addMarkers(markers);
               },
