@@ -1,5 +1,5 @@
 require 'singleton'
-
+#used to store last added location per vehicle
 class PrevHash < Hash
   include Singleton
 

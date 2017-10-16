@@ -1,6 +1,6 @@
 class VehiclesController < ApplicationController
 
-
+# Creates new vehicle record
   def create
     vehicle = Vehicle.new
     vehicle.uid = JSON.parse(params.keys[0])["id"]
@@ -8,6 +8,7 @@ class VehiclesController < ApplicationController
     render :nothing => true, :status =>204
   end
 
+# Deletes vehicle record from database
   def destroy
     vehicle = Vehicle.where(uid: params[:id]).first
     # vehicle.locations.destroy_all
@@ -15,11 +16,11 @@ class VehiclesController < ApplicationController
     render nothing: true, :status =>204
   end
 
+# Adding new location and checking whether it is within radius
   def add_location
-    # where_statement = "(lat between "+(@d2d_location.lat - 0.032).to_s+" and "+(@d2d_location.lat + 0.032).to_s+") AND (lng between "+(@d2d_location.lng - 0.032).to_s+" and "+(@d2d_location.lng + 0.032).to_s+")"
     #To make sure that location is within 3.5 kilometers radius from door2door location
     body_params = JSON.parse(params.keys[0])
-    if(body_params["lat"]<(D2DLOCATION[:lat] + 0.032) && body_params["lat"]>(D2DLOCATION[:lat] -0.032) && body_params["lng"]>(D2DLOCATION[:lng] - 0.032/Math.cos(body_params["lat"]).abs) && body_params["lng"]<(D2DLOCATION[:lng] + 0.032/Math.cos(body_params["lat"]).abs) )
+    if(body_params["lat"]<(D2DLOCATION[:lat] + RADIUS) && body_params["lat"]>(D2DLOCATION[:lat] - RADIUS) && body_params["lng"]>(D2DLOCATION[:lng] - RADIUS/Math.cos(body_params["lat"]).abs) && body_params["lng"]<(D2DLOCATION[:lng] + RADIUS/Math.cos(body_params["lat"]).abs) )
       vehicle=Vehicle.where(uid: params[:id]).first
       location = Location.new
       location.lat = body_params["lat"]
@@ -31,14 +32,15 @@ class VehiclesController < ApplicationController
       if(prev_locations.value(params[:id])!=[])
         prev_lat = prev_locations.value(params[:id]).split(",")[0].to_f
         prev_lng = prev_locations.value(params[:id]).split(",")[1].to_f
+# => Check location relative to the previous location indicating direction
         if(location.lng-prev_lng<0)
-          location.picture='/assets/left.png'
+          location.picture=DIRECTION[:left]
         elsif(location.lng-prev_lng>0)
-          location.picture='/assets/right.png'
+          location.picture=DIRECTION[:right]
         elsif(location.lat-prev_lat<0)
-          location.picture='/assets/down.png'
+          location.picture=DIRECTION[:down]
         elsif(location.lat-prev_lat>0)
-          location.picture='/assets/up.png'
+          location.picture=DIRECTION[:up]
         end
       end
       prev_locations.add(params[:id],location.lat.to_s+","+location.lng.to_s)
@@ -46,21 +48,20 @@ class VehiclesController < ApplicationController
     end
     render nothing: true, :status =>204
   end
-
+# Get vehicle by uid
   def show
     vehicle=Vehicle.where(uid: params[:id]).first
     render :json => {"vehicle"=>vehicle }
   end
-
+# initialize door2door initial marker
   def main
     @d2d_location=[]
     @d2d_location.push(D2DLOCATION)
-    @locations = Location.where("picture IS NOT NULL").group('vehicle_id').order('location_timestamp desc').group('vehicle_id')
-    puts @locations.first.inspect
   end
 
+# poll database to get vehicles locations
   def polling
-    main()
+    @locations = Location.where("picture IS NOT NULL").group('vehicle_id').order('location_timestamp desc')
     render :json => {"vehicles"=>@locations }
   end
 end
