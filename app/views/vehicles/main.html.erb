@@ -22,7 +22,7 @@
       var handler = Gmaps.build('Google');
       var markers = [];
       handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-        markers = handler.addMarkers(<%= raw @locations.to_json %>);
+        markers = handler.addMarkers(<%= raw @d2d_location.to_json %>);
         handler.bounds.extendWith(markers);
         handler.fitMapToBounds();
       });
@@ -59,7 +59,7 @@
       }
 
       $(document).ready(function(){
-        timeout_polling();
+        // timeout_polling();
       });
     </script>
   </body>

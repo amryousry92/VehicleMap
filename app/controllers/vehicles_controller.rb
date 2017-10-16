@@ -53,6 +53,8 @@ class VehiclesController < ApplicationController
   end
 
   def main
+    @d2d_location=[]
+    @d2d_location.push(D2DLOCATION)
     @locations = Location.where("picture IS NOT NULL").group('vehicle_id').order('location_timestamp desc').group('vehicle_id')
     puts @locations.first.inspect
   end
