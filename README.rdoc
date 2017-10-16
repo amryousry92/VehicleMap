@@ -1,28 +1,26 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Functionality:
+This project targets viewing vehicle locations near the Door2door head office.
+Vehicles send HTTP requests to the server which saves their current location and timestamp. The system automatically detects their
+location based on previous requests. A polling method would call the server periodically to get their last current saved location then
+updates markers on the map showing vehicles moving direction.
 
-Things you may want to cover:
+Technologies used:
+- Ruby version 2.1.1
+- Rails version 4.2.0 as a Ruby framework to implement MVC
+- MySQL version 5.5 as a RDBMS
+- Javascript for fron end methods
+- jQuery
+- Gmaps4rails as it contains already built methods related to using Google Maps to view the vehicles movement.
 
-* Ruby version
+Tests:
+- System tested using the simulator.
+- Server and simulator are run simultaneously and changes are obvious in front end.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Suggested Enhancements to the System
+- Use of PostgreSQL to provide faster database operations
+- Use of Geocoder gem to convert between latitude and longitude degrees to kilometers
+- Use of ReactJS for frontend in order to load markers components faster
+- Possible use of websockets instead of polling to send new locations. Yet, in this case then a queuing system would rather be used (ex. Redis)
+in order to batch send the locations periodically.
